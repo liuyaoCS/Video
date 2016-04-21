@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.chinaso.video">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
+
+    <application
+        android:name=".VideoApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.easydarwin.easypusher.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="org.easydarwin.easypusher.StreameActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".VodActivity" />
+        <activity android:name=".LiveActivity"></activity>
+
+        <!--easy player-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5700bb7467e58ef3fd000648" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="channel" />
+
+        <activity
+            android:name="org.easydarwin.easyplayer.PlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"></activity>
+        <activity
+            android:name="org.easydarwin.easyplayer.SettingsActivity" />
+        <activity
+            android:name="org.easydarwin.easyplayer.PlaylistActivity"
+           >
+
+        </activity>
+    </application>
+
+</manifest>
