@@ -8,7 +8,7 @@ android {
         applicationId "com.chinaso.video"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
+        versionCode 2016042215
         versionName "1.0"
     }
     buildTypes {
@@ -21,9 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    //testCompile 'junit:junit:4.12'
+
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile project(':push')
     compile project(':play')
-    //compile project(':EasyPlayer')
 }
