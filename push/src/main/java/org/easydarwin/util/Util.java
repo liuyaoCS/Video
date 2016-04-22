@@ -12,8 +12,6 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.easydarwin.config.Config;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +28,8 @@ import java.util.Set;
  */
 public class Util {
 
+    public static final String PREF_NAME="easy_pref";
+    public static final String K_RESOLUTION="k_resolution";
     /**
      * 将YUV420SP数据顺时针旋转90度
      *
@@ -188,8 +188,8 @@ public class Util {
      */
     public static List<String> getSupportResolution(Context context){
         List<String> resolutions=new ArrayList<>();
-        SharedPreferences sharedPreferences=context.getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
-        String r=sharedPreferences.getString(Config.K_RESOLUTION, "");
+        SharedPreferences sharedPreferences=context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        String r=sharedPreferences.getString(K_RESOLUTION, "");
         if(!TextUtils.isEmpty(r)){
             String[] arr=r.split(";");
             if(arr.length>0){
@@ -206,8 +206,8 @@ public class Util {
      * @param value
      */
     public static void saveSupportResolution(Context context,String value){
-        SharedPreferences sharedPreferences=context.getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
-        sharedPreferences.edit().putString(Config.K_RESOLUTION, value).commit();
+        SharedPreferences sharedPreferences=context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putString(K_RESOLUTION, value).commit();
     }
 
 

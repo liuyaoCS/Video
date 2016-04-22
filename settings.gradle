@@ -1,1 +1,1 @@
-include ':app', ':push', ':api'
+include ':app', ':push', ':play'

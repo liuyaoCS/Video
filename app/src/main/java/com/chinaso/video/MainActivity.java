@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.easydarwin.easyplayer.PlaylistActivity;
 import org.easydarwin.easypusher.StreameActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.live:
-                Intent intent2=new Intent(MainActivity.this, LiveActivity.class);
+                Intent intent2=new Intent(MainActivity.this, PlaylistActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.vod:
