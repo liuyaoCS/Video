@@ -1,4 +1,4 @@
-package com.chinaso.video;
+package com.chinaso.video.app;
 
 import android.app.Application;
 import android.hardware.Camera;

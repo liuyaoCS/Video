@@ -4,8 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.chinaso.video.VodActivity">
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/url"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/play"
+        android:text="play"
+        android:layout_toRightOf="@id/url"/>
     <VideoView
         android:id="@+id/video"
+        android:layout_below="@id/url"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </RelativeLayout>

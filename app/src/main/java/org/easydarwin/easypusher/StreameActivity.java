@@ -14,6 +14,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,6 +25,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.chinaso.video.net.NetworkService;
+import com.chinaso.video.net.recordoper.OperRecordResponse;
 
 import org.easydarwin.config.Config;
 import org.easydarwin.push.EasyPusher;
@@ -32,6 +37,10 @@ import org.easydarwin.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 @SuppressWarnings("deprecation")
 public class StreameActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
@@ -42,12 +51,15 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
     int width = 640, height = 480;
     Button btnSwitch;
     Button btnSetting;
+    Button btnRecord;
     TextView txtStreamAddress;
     Button btnSwitchCemera;
     Spinner spnResolution;
     List<String> listResolution;
     MediaStream mMediaStream;
     TextView txtStatus;
+
+    private  boolean isRecording=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +73,8 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
         btnSwitch.setOnClickListener(this);
         btnSetting = (Button) findViewById(R.id.btn_setting);
         btnSetting.setOnClickListener(this);
+        btnRecord = (Button) findViewById(R.id.btn_record);
+        btnRecord.setOnClickListener(this);
         btnSwitchCemera = (Button) findViewById(R.id.btn_switchCamera);
         btnSwitchCemera.setOnClickListener(this);
         txtStreamAddress = (TextView) findViewById(R.id.txt_stream_address);
@@ -136,8 +150,15 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case MSG_STATE:
-                String state=msg.getData().getString("state");
+                    String state=msg.getData().getString("state");
                     txtStatus.setText(state);
+                    Log.i("ly","state->"+state);
+
+                    if(!TextUtils.isEmpty(state) && state.equals("推流中") ){
+                        btnRecord.setVisibility(View.VISIBLE);
+                    }else{
+                        btnRecord.setVisibility(View.GONE);
+                    }
                     break;
             }
         }
@@ -232,6 +253,37 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
             case R.id.btn_setting:
                 startActivity(new Intent(this, SettingActivity.class));
                 break;
+            case R.id.btn_record:
+                if(isRecording){
+                    isRecording=false;
+                    btnRecord.setText("录像");
+                    NetworkService.getInstance().stopRecord(Config.DEFAULT_RECORD_NAME, "stop", new Callback<OperRecordResponse>() {
+                        @Override
+                        public void success(OperRecordResponse operRecordResponse, Response response) {
+                            Toast.makeText(StreameActivity.this,"stop record success",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Toast.makeText(StreameActivity.this,"network err",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    isRecording=true;
+                    btnRecord.setText("停录");
+                    NetworkService.getInstance().startRecord(Config.DEFAULT_RECORD_NAME, Config.DEFAULT_VIDEO_STREAM, new Callback<OperRecordResponse>() {
+                        @Override
+                        public void success(OperRecordResponse operRecordResponse, Response response) {
+                            Toast.makeText(StreameActivity.this,"start record success",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void failure(RetrofitError error) {
+                            Toast.makeText(StreameActivity.this,"network err",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                break;
             case R.id.sv_surfaceview:
                 try {
                     mMediaStream.getCamera().autoFocus(null);
@@ -251,5 +303,6 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
         mMediaStream.destroyStream();
+        btnRecord.setVisibility(View.GONE);
     }
 }
