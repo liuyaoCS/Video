@@ -1,5 +1,7 @@
 package com.chinaso.video.net;
 
+import org.easydarwin.config.Config;
+
 import retrofit.RestAdapter;
 
 public class NetworkService {
@@ -10,7 +12,7 @@ public class NetworkService {
 			return instance;
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
-	    .setEndpoint("http://192.168.74.73:10000/")
+	    .setEndpoint(Config.DEFAULT_VOD_SERVER_IP)
 	    .build();
 		instance = restAdapter.create(NetworkServiceAPI.class);
 		

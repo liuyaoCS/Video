@@ -17,17 +17,18 @@ public class Config {
     public static final String SERVER_IP="serverIp";
     public static final String SERVER_PORT="serverPort";
     public static final String STREAM_ID="streamId";
-    public static final String DEFAULT_SERVER_IP="192.168.74.73";
+    public static final String DEFAULT_SERVER_IP="192.168.74.139";
     public static final String DEFAULT_SERVER_PORT="554";
     public static final String DEFAULT_STREAM_ID="101";
 
     //live video
-    public static final String DEFAULT_VIDEO_STREAM="rtsp://192.168.74.73:554/101.sdp";
+    public static final String DEFAULT_VIDEO_STREAM="rtsp://192.168.74.139:554/101.sdp";
 
     //vod video
-    public static final String DEFAULT_VOD_URL = "http://192.168.74.73/vod1/20160418104532/vod1.m3u8";
-    public static final String DEFAULT_RECORD_NAME = "vod4";
-    public static final String DEFAULT_RECORD_BEGIN = "20160418104129";
+    public static final String DEFAULT_VOD_SERVER_IP="http://192.168.74.139:10000/";
+    public static final String DEFAULT_VOD_URL = "http://192.168.74.139/vod1/20160418104532/vod1.m3u8";
+    public static final String DEFAULT_RECORD_NAME = "vod1";
+    public static final String DEFAULT_RECORD_BEGIN = "20160502104129";
     public static final String DEFAULT_RECORD_END = "20160518104532";
 
 }
