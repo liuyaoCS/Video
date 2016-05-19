@@ -26,7 +26,7 @@ public class VodActivity extends AppCompatActivity {
         urlDT= (EditText) findViewById(R.id.url);
         String url=getIntent().getStringExtra("url");
         if(!TextUtils.isEmpty(url)){
-            String tmp="www.easydarwin.org//home/liuyao/Video/Record";
+            String tmp="www.easydarwin.org//home/liuyao/video/Record";
             String ret=url.replace(tmp,Config.DEFAULT_SERVER_IP);
             urlDT.setText(ret);
         }else{
