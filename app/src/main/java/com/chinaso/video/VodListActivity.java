@@ -1,6 +1,8 @@
 package com.chinaso.video;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,8 +34,10 @@ public class VodListActivity extends AppCompatActivity implements AdapterView.On
         videoList= (ListView) findViewById(R.id.video_list);
         videoList.setOnItemClickListener(this);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String name = sharedPreferences.getString(Config.RECORD_NAME, Config.DEFAULT_RECORD_NAME);
 
-        NetworkService.getInstance().listRecord(Config.DEFAULT_RECORD_NAME,"list",Config.DEFAULT_RECORD_BEGIN,Config.DEFAULT_RECORD_END, new Callback<RecordVideoList>() {
+        NetworkService.getInstance().listRecord(name,"list",Config.DEFAULT_RECORD_BEGIN,Config.DEFAULT_RECORD_END, new Callback<RecordVideoList>() {
             @Override
             public void success(RecordVideoList recordVideoList, Response response) {
                 Toast.makeText(VodListActivity.this,"get video list success",Toast.LENGTH_SHORT).show();

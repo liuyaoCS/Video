@@ -29,24 +29,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".VodActivity" />
         <!-- easy pusher -->
         <activity
-            android:name="org.easydarwin.easypusher.SettingActivity"
+            android:name="org.easydarwin.config.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="org.easydarwin.easypusher.StreameActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".VodActivity" />
-        <activity android:name=".LiveActivity" />
-
         <!-- easy player -->
         <activity
             android:name="org.easydarwin.easyplayer.PlayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
-        <activity
+        <!--<activity
             android:name="org.easydarwin.easyplayer.SettingsActivity"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings" />-->
         <activity
             android:name="org.easydarwin.easyplayer.PlaylistActivity"
             android:label="@string/app_name"></activity>

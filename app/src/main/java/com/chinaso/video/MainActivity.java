@@ -3,9 +3,12 @@ package com.chinaso.video;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.easydarwin.config.SettingActivity;
 import org.easydarwin.easyplayer.PlaylistActivity;
 import org.easydarwin.easypusher.StreameActivity;
 
@@ -45,5 +48,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.setting, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.setting){
+            startActivity(new Intent(this, SettingActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

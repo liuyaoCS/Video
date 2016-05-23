@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,10 +36,16 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_playlist);
-        //setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
+        String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
+        String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
+        String stream="rtsp://"+ip+":"+port+"/"+id+".sdp";
+
         final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         try {
-            mArray = new JSONArray(preferences.getString("play_list", "["+ Config.DEFAULT_VIDEO_STREAM+"]"));
+            mArray = new JSONArray(preferences.getString("play_list", "['"+ stream +"']"));
         } catch (JSONException e) {
             e.printStackTrace();
             preferences.edit().putString("play_list", "["+ Config.DEFAULT_VIDEO_STREAM+"]").apply();
@@ -71,15 +78,6 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
 //        }
     }
 
-    public void onResume() {
-        super.onResume();
-        //MobclickAgent.onResume(this);       //统计时长
-    }
-
-    public void onPause() {
-        super.onPause();
-       // MobclickAgent.onPause(this);
-    }
 
     @Override
     public boolean onLongClick(View view) {

@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.easydarwin.config.SettingActivity;
 import com.chinaso.video.net.NetworkService;
 import com.chinaso.video.net.recordoper.OperRecordResponse;
 
@@ -235,7 +236,7 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
                     String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
-                    String id = sharedPreferences.getString(Config.STREAM_ID, "");
+                    String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
                     if (TextUtils.isEmpty(id)) {
                         id = String.valueOf(System.nanoTime());
                         SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -254,10 +255,16 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
                 startActivity(new Intent(this, SettingActivity.class));
                 break;
             case R.id.btn_record:
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
+                String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
+                String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
+                String name = sharedPreferences.getString(Config.RECORD_NAME, Config.DEFAULT_RECORD_NAME);
+                String stream="rtsp://"+ip+":"+port+"/"+id+".sdp";
                 if(isRecording){
                     isRecording=false;
                     btnRecord.setText("录像");
-                    NetworkService.getInstance().stopRecord(Config.DEFAULT_RECORD_NAME, "stop", new Callback<OperRecordResponse>() {
+                    NetworkService.getInstance().stopRecord(name, "stop", new Callback<OperRecordResponse>() {
                         @Override
                         public void success(OperRecordResponse operRecordResponse, Response response) {
                             Toast.makeText(StreameActivity.this,"stop record success",Toast.LENGTH_SHORT).show();
@@ -271,7 +278,7 @@ public class StreameActivity extends AppCompatActivity implements SurfaceHolder.
                 }else{
                     isRecording=true;
                     btnRecord.setText("停录");
-                    NetworkService.getInstance().startRecord(Config.DEFAULT_RECORD_NAME, Config.DEFAULT_VIDEO_STREAM, new Callback<OperRecordResponse>() {
+                    NetworkService.getInstance().startRecord(name, stream, new Callback<OperRecordResponse>() {
                         @Override
                         public void success(OperRecordResponse operRecordResponse, Response response) {
                             Toast.makeText(StreameActivity.this,"start record success",Toast.LENGTH_SHORT).show();

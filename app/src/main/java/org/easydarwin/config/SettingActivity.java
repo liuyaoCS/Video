@@ -5,7 +5,7 @@
 	Website: http://www.easydarwin.org
 */
 
-package org.easydarwin.easypusher;
+package org.easydarwin.config;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,34 +17,36 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.easydarwin.config.Config;
-
 public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        final EditText txtIp = (EditText) findViewById(R.id.edt_server_address);
-        final EditText txtPort = (EditText) findViewById(R.id.edt_server_port);
-        final EditText txtId = (EditText) findViewById(R.id.edt_stream_id);
+        setContentView(org.easydarwin.easypusher.R.layout.activity_setting);
+        final EditText txtIp = (EditText) findViewById(org.easydarwin.easypusher.R.id.edt_server_address);
+        final EditText txtPort = (EditText) findViewById(org.easydarwin.easypusher.R.id.edt_server_port);
+        final EditText txtId = (EditText) findViewById(org.easydarwin.easypusher.R.id.edt_stream_id);
+        final EditText txtName = (EditText) findViewById(org.easydarwin.easypusher.R.id.edt_record_name);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
         String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
         String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
+        String name = sharedPreferences.getString(Config.RECORD_NAME, Config.DEFAULT_RECORD_NAME);
 
         txtIp.setText(ip);
         txtPort.setText(port);
         txtId.setText(id);
+        txtName.setText(name);
 
-        Button btnSave = (Button) findViewById(R.id.btn_save);
+        Button btnSave = (Button) findViewById(org.easydarwin.easypusher.R.id.btn_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String ipValue = txtIp.getText().toString();
                 String portValue = txtPort.getText().toString();
                 String idValue = txtId.getText().toString();
+                String nameValue = txtName.getText().toString();
 
                 if (TextUtils.isEmpty(ipValue)) {
                     ipValue = Config.DEFAULT_SERVER_IP;
@@ -58,12 +60,17 @@ public class SettingActivity extends AppCompatActivity {
                     idValue = Config.DEFAULT_STREAM_ID;
                 }
 
+                if (TextUtils.isEmpty(nameValue)) {
+                    nameValue = Config.DEFAULT_RECORD_NAME;
+                }
+
                 SharedPreferences sharedPreferences = PreferenceManager
                         .getDefaultSharedPreferences(SettingActivity.this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(Config.SERVER_IP, ipValue);
                 editor.putString(Config.SERVER_PORT, portValue);
                 editor.putString(Config.STREAM_ID, idValue);
+                editor.putString(Config.RECORD_NAME, nameValue);
                 editor.commit();
                 onBackPressed();
             }

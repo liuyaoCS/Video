@@ -27,7 +27,6 @@ import org.easydarwin.video.EasyRTSPClient;
 import org.easydarwin.video.RTSPClient;
 import org.esaydarwin.rtsp.player.R;
 
-//import com.umeng.analytics.MobclickAgent;
 
 public class PlayActivity extends AppCompatActivity implements SurfaceHolder.Callback {
 
@@ -161,57 +160,10 @@ public class PlayActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
     }
 
-    public void onResume() {
-        super.onResume();
-        //MobclickAgent.onResume(this);       //统计时长
-    }
 
-    public void onPause() {
-        super.onPause();
-       // MobclickAgent.onPause(this);
-    }
 
     @Override
     public void surfaceCreated(final SurfaceHolder surfaceHolder) {
-//        mRTSPUrl = "rtsp://www.easydss.com:554/demo.mp4";
-//        mRTSPUrl = "rtsp://121.41.73.249:554/SM-N9200.sdp";
-//        mRTSPUrl = "rtsp://121.41.73.249:554/SCH-I959.sdp";
-//        mRTSPUrl = "rtsp://121.41.73.249/1001_home.sdp";
-//        mRTSPUrl = "rtsp://60.173.195.210:10554/live.sdp?token=279e6d95f80111e595ea000c298ba27c766dbbf15c2cf91b76e70d1e6bcaa3b5";
-
-
-//        if (TextUtils.isEmpty(mRTSPUrl)) {
-//            final EditText edit = new EditText(this);
-//            final int hori = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
-//            final int verti = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
-//            edit.setPadding(hori, verti, hori, verti);
-//            edit.setText("rtsp://.sdp");
-//            edit.setSelection("rtsp://".length());
-//            new AlertDialog.Builder(this).setView(edit).setTitle("请输入播放地址").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                    mRTSPUrl = String.valueOf(edit.getText());
-//                    if (TextUtils.isEmpty(mRTSPUrl)) {
-//                        if (BuildConfig.DEBUG) {
-////                            mRTSPUrl = "rtsp://121.41.73.249/1001_home.sdp";
-////                            mRTSPUrl = "rtsp://218.204.223.237:554/live/1/66251FC11353191F/e7ooqwcfbqjoo80j.sdp";
-//                        }
-//                    }
-//                    if (TextUtils.isEmpty(mRTSPUrl)) {
-//                        Toast.makeText(PlayActivity.this, "url不合法", Toast.LENGTH_SHORT).show();
-//                        return;
-//                    }
-//                }
-//            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i) {
-//                    finish();
-//                }
-//            }).show();
-//        } else {
-//
-//        }
-
         startRending(surfaceHolder.getSurface());
     }
 
@@ -233,22 +185,4 @@ public class PlayActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.setting, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.setting) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
-            return true;
-        } else if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
