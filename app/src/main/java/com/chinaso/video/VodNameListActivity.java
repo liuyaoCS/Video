@@ -1,4 +1,4 @@
-package org.easydarwin.easyplayer;
+package com.chinaso.video;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,16 +20,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.easydarwin.config.Config;
+import org.easydarwin.easyplayer.PlayActivity;
 import org.esaydarwin.rtsp.player.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-//import com.umeng.analytics.MobclickAgent;
 
-public class PlaylistActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
+public class VodNameListActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     private RecyclerView mRecyclerView;
     private JSONArray mArray;
+    private final String spKeyName="vodName_list";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +38,15 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.content_playlist);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
-        String port = sharedPreferences.getString(Config.SERVER_PORT, Config.DEFAULT_SERVER_PORT);
-        String id = sharedPreferences.getString(Config.STREAM_ID, Config.DEFAULT_STREAM_ID);
-        String stream="rtsp://"+ip+":"+port+"/"+id+".sdp";
+        String name = sharedPreferences.getString(Config.RECORD_NAME, Config.DEFAULT_RECORD_NAME);
+
 
         final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         try {
-            mArray = new JSONArray(preferences.getString("play_list", "['"+ stream +"']"));
+            mArray = new JSONArray(preferences.getString(spKeyName, "['"+ name +"']"));
         } catch (JSONException e) {
             e.printStackTrace();
-            preferences.edit().putString("play_list", "["+ Config.DEFAULT_VIDEO_STREAM+"]").apply();
+            preferences.edit().putString(spKeyName, "["+ Config.DEFAULT_RECORD_NAME+"]").apply();
             mArray = new JSONArray();
         }
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
@@ -73,9 +71,6 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
-//        if (savedInstanceState == null){
-//            //startActivity(new Intent(this, Splash.class));
-//        }
     }
 
 
@@ -89,23 +84,24 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     if (i == 0) {
-                        String playUrl = mArray.optString(pos);
-                        final EditText edit = new EditText(PlaylistActivity.this);
+                        String vod_name = mArray.optString(pos);
+                        final EditText edit = new EditText(VodNameListActivity.this);
                         final int hori = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
                         final int verti = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
                         edit.setPadding(hori, verti, hori, verti);
-                        edit.setText(playUrl);
-                        final AlertDialog alertDialog = new AlertDialog.Builder(PlaylistActivity.this).setView(edit).setTitle("请输入播放地址").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        edit.setText(vod_name);
+                        final AlertDialog alertDialog = new AlertDialog.Builder(VodNameListActivity.this).setView(edit).setTitle("请输入点播名称").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                String mRTSPUrl = String.valueOf(edit.getText());
-                                if (TextUtils.isEmpty(mRTSPUrl)) {
+                                String vodName = String.valueOf(edit.getText());
+                                if (TextUtils.isEmpty(vodName)) {
                                     return;
                                 }
                                 try {
-                                    mArray.put(pos, mRTSPUrl);
+                                    mArray.put(pos, vodName);
+
                                     final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-                                    preferences.edit().putString("play_list", String.valueOf(mArray)).apply();
+                                    preferences.edit().putString(spKeyName, String.valueOf(mArray)).apply();
                                     mRecyclerView.getAdapter().notifyItemChanged(pos);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -121,7 +117,7 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
                         });
                         alertDialog.show();
                     } else {
-                        new AlertDialog.Builder(PlaylistActivity.this).setMessage("确定要删除该地址吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        new AlertDialog.Builder(VodNameListActivity.this).setMessage("确定要删除该名称吗？").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 try {
@@ -130,7 +126,8 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
 
                                     mArray=remove(mArray,pos);
                                     final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-                                    preferences.edit().putString("play_list", String.valueOf(mArray)).apply();
+                                    preferences.edit().putString(spKeyName, String.valueOf(mArray)).apply();
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -163,8 +160,8 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
             super(itemView);
             itemView.setBackgroundResource(android.R.drawable.list_selector_background);
             mTextView = (TextView) itemView.findViewById(android.R.id.text1);
-            itemView.setOnClickListener(PlaylistActivity.this);
-            itemView.setOnLongClickListener(PlaylistActivity.this);
+            itemView.setOnClickListener(VodNameListActivity.this);
+            itemView.setOnLongClickListener(VodNameListActivity.this);
             itemView.setTag(this);
         }
 
@@ -176,10 +173,10 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
         PlayListViewHolder holder = (PlayListViewHolder) view.getTag();
         int pos = holder.getAdapterPosition();
         if (pos != -1) {
-            String playUrl = mArray.optString(pos);
-            if (!TextUtils.isEmpty(playUrl)) {
-                Intent i = new Intent(PlaylistActivity.this, PlayActivity.class);
-                i.putExtra("play_url", playUrl);
+            String vodName = mArray.optString(pos);
+            if (!TextUtils.isEmpty(vodName)) {
+                Intent i = new Intent(VodNameListActivity.this, VodListActivity.class);
+                i.putExtra("vod_name", vodName);
                 startActivity(i);
             }
         }
@@ -198,9 +195,9 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
             final int hori = (int) getResources().getDimension(R.dimen.activity_horizontal_margin);
             final int verti = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
             edit.setPadding(hori, verti, hori, verti);
-            edit.setText("rtsp://.sdp");
-            edit.setSelection("rtsp://".length());
-            final AlertDialog dlg = new AlertDialog.Builder(this).setView(edit).setTitle("请输入播放地址").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            edit.setText("vod");
+            edit.setSelection("vod".length());
+            final AlertDialog dlg = new AlertDialog.Builder(this).setView(edit).setTitle("请输入点播名称").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String mRTSPUrl = String.valueOf(edit.getText());
@@ -210,7 +207,7 @@ public class PlaylistActivity extends AppCompatActivity implements View.OnClickL
                     mArray.put(mRTSPUrl);
 
                     final SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-                    preferences.edit().putString("play_list", String.valueOf(mArray)).apply();
+                    preferences.edit().putString(spKeyName, String.valueOf(mArray)).apply();
                     mRecyclerView.getAdapter().notifyItemInserted(mArray.length() - 1);
                 }
             }).setNegativeButton("取消", null).create();

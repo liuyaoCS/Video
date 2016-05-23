@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -23,7 +24,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class VodListActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class VodListActivity extends AppCompatActivity {
     ListView videoList;
     List<Record> videoLists;
     ListAdapter videoAdapter;
@@ -32,10 +33,13 @@ public class VodListActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vod_list);
         videoList= (ListView) findViewById(R.id.video_list);
-        videoList.setOnItemClickListener(this);
+        //videoList.setOnItemClickListener(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String name = sharedPreferences.getString(Config.RECORD_NAME, Config.DEFAULT_RECORD_NAME);
+        if(!TextUtils.isEmpty(getIntent().getStringExtra("vod_name"))){
+            name=getIntent().getStringExtra("vod_name");
+        }
 
         NetworkService.getInstance().listRecord(name,"list",Config.DEFAULT_RECORD_BEGIN,Config.DEFAULT_RECORD_END, new Callback<RecordVideoList>() {
             @Override
@@ -54,10 +58,10 @@ public class VodListActivity extends AppCompatActivity implements AdapterView.On
         });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent=new Intent(VodListActivity.this,VodActivity.class);
-        intent.putExtra("url",videoLists.get(position).getUrl());
-        startActivity(intent);
-    }
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        Intent intent=new Intent(VodListActivity.this,VodActivity.class);
+//        intent.putExtra("url",videoLists.get(position).getUrl());
+//        startActivity(intent);
+//    }
 }

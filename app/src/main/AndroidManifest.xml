@@ -29,7 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- vod -->
         <activity android:name=".VodActivity" />
+        <activity
+            android:name=".VodNameListActivity"
+           ></activity>
+        <activity android:name=".VodListActivity"></activity>
         <!-- easy pusher -->
         <activity
             android:name="org.easydarwin.config.SettingActivity"

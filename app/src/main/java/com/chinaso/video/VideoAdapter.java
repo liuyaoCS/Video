@@ -2,6 +2,9 @@ package com.chinaso.video;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.chinaso.video.net.recordlist.Record;
+
+import org.easydarwin.config.Config;
 
 import java.util.List;
 
@@ -47,13 +52,28 @@ public class VideoAdapter extends BaseAdapter {
             viewHolder.time=(TextView)convertView.findViewById(R.id.video_time);
             viewHolder.url=(TextView)convertView.findViewById(R.id.video_url);
 
-
             convertView.setTag(viewHolder);
         }else{
             viewHolder= (ViewHolder) convertView.getTag();
         }
         viewHolder.time.setText(mDataSets.get(position).getTime());
-        viewHolder.url.setText(mDataSets.get(position).getUrl());
+        String fetchUrl=mDataSets.get(position).getUrl();
+        if(!TextUtils.isEmpty(fetchUrl)){
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
+            String tmp="www.easydarwin.org//home/liuyao/video/Record";
+            final String ret=fetchUrl.replace(tmp, ip);
+            viewHolder.url.setText(ret);
+            viewHolder.url.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(mContext,VodActivity.class);
+                    intent.putExtra("url",ret);
+                    mContext.startActivity(intent);
+                }
+            });
+        }
+
 
         return convertView;
     }

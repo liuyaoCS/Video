@@ -7,13 +7,15 @@
     <EditText
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/url"/>
+        android:id="@+id/url"
+        android:visibility="visible"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/play"
         android:text="play"
-        android:layout_toRightOf="@id/url"/>
+        android:layout_toRightOf="@id/url"
+        android:visibility="visible"/>
     <VideoView
         android:id="@+id/video"
         android:layout_below="@id/url"

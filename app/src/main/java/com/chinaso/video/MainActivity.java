@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent2);
                 break;
             case R.id.vod:
-                Intent intent3=new Intent(MainActivity.this, VodListActivity.class);
+                Intent intent3=new Intent(MainActivity.this, VodNameListActivity.class);
                 startActivity(intent3);
                 break;
             default:

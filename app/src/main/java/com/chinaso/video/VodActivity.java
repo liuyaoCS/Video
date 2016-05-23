@@ -23,15 +23,9 @@ public class VodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vod);
 
-        urlDT= (EditText) findViewById(R.id.url);
         String url=getIntent().getStringExtra("url");
-        if(!TextUtils.isEmpty(url)){
-            String tmp="www.easydarwin.org//home/liuyao/video/Record";
-            String ret=url.replace(tmp,Config.DEFAULT_SERVER_IP);
-            urlDT.setText(ret);
-        }else{
-            //urlDT.setText(Config.DEFAULT_VOD_URL);
-        }
+        urlDT= (EditText) findViewById(R.id.url);
+        urlDT.setText(url);
 
 
         video=(VideoView)findViewById(R.id.video);
@@ -48,6 +42,13 @@ public class VodActivity extends AppCompatActivity {
                 video.start();
             }
         });
+
+//        Uri uri = Uri.parse(url);
+//        controller=new MediaController(VodActivity.this);
+//
+//        video.setVideoURI(uri);
+//        video.setMediaController(controller);
+//        video.start();
 
     }
 }
