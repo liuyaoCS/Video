@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.chinaso.video.net.NetworkService;
+import com.chinaso.video.net.recordlist.Body;
 import com.chinaso.video.net.recordlist.Record;
 import com.chinaso.video.net.recordlist.RecordVideoList;
 
@@ -44,11 +45,17 @@ public class VodListActivity extends AppCompatActivity {
         NetworkService.getInstance().listRecord(name,"list",Config.DEFAULT_RECORD_BEGIN,Config.DEFAULT_RECORD_END, new Callback<RecordVideoList>() {
             @Override
             public void success(RecordVideoList recordVideoList, Response response) {
-                Toast.makeText(VodListActivity.this,"get video list success",Toast.LENGTH_SHORT).show();
-                videoLists=recordVideoList.getEasyDarwin().getBody().getRecords();
-                videoAdapter=new VideoAdapter(VodListActivity.this,videoLists);
+                Body body=recordVideoList.getEasyDarwin().getBody();
+                if(body!=null){
+                    videoLists=body.getRecords();
+                    videoAdapter=new VideoAdapter(VodListActivity.this,videoLists);
 
-                videoList.setAdapter(videoAdapter);
+                    videoList.setAdapter(videoAdapter);
+                    Toast.makeText(VodListActivity.this,"get video list success",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(VodListActivity.this," no video found",Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
