@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chinaso.video.net.recordlist.Record;
 
@@ -61,8 +62,17 @@ public class VideoAdapter extends BaseAdapter {
         if(!TextUtils.isEmpty(fetchUrl)){
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
             String ip = sharedPreferences.getString(Config.SERVER_IP, Config.DEFAULT_SERVER_IP);
-            String tmp="www.easydarwin.org//home/liuyao/video/Record";
-            final String ret=fetchUrl.replace(tmp, ip);
+            String tmp="";
+            if(fetchUrl.contains(Config.REPLACE_LOCAL)){
+                tmp=fetchUrl.replace(Config.REPLACE_LOCAL,ip);
+            }else if(fetchUrl.contains(Config.REPLACE_REMOTE)){
+                tmp=fetchUrl.replace(Config.REPLACE_REMOTE,ip);
+            }else{
+                Toast.makeText(mContext,"server error",Toast.LENGTH_SHORT).show();
+                return null;
+            }
+
+            final String ret=tmp;
             viewHolder.url.setText(ret);
             viewHolder.url.setOnClickListener(new View.OnClickListener() {
                 @Override
