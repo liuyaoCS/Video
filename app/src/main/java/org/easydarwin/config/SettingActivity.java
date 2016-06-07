@@ -40,6 +40,7 @@ public class SettingActivity extends AppCompatActivity {
         txtName.setText(name);
 
         Button btnSave = (Button) findViewById(org.easydarwin.easypusher.R.id.btn_save);
+        assert btnSave != null;
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +72,7 @@ public class SettingActivity extends AppCompatActivity {
                 editor.putString(Config.SERVER_PORT, portValue);
                 editor.putString(Config.STREAM_ID, idValue);
                 editor.putString(Config.RECORD_NAME, nameValue);
+                editor.putString(Config.VOD_SERVER_IP, "http://"+Config.SERVER_IP+":10000/");
                 editor.commit();
                 onBackPressed();
             }

@@ -1,5 +1,9 @@
 package com.chinaso.video.net;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import org.easydarwin.config.Config;
 
 import retrofit.RestAdapter;
@@ -11,11 +15,17 @@ public class NetworkService {
 		if (instance != null)
 			return instance;
 
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+		String vodIp = sharedPreferences.getString(Config.VOD_SERVER_IP, Config.DEFAULT_VOD_SERVER_IP);
 		RestAdapter restAdapter = new RestAdapter.Builder()
-	    .setEndpoint(Config.DEFAULT_VOD_SERVER_IP)
+	    .setEndpoint(/*Config.*/vodIp)
 	    .build();
 		instance = restAdapter.create(NetworkServiceAPI.class);
 		
 		return instance;
+	}
+	private static Context mContext;
+	public static void init(Context context){
+		mContext=context;
 	}
 }

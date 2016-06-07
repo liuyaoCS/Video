@@ -3,6 +3,8 @@ package com.chinaso.video.app;
 import android.app.Application;
 import android.hardware.Camera;
 
+import com.chinaso.video.net.NetworkService;
+
 import org.easydarwin.util.Util;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class VideoApplication extends Application {
             Util.saveSupportResolution(this,stringBuilder.toString());
             camera.release();
         }
+        NetworkService.init(this);
 
 
     }
