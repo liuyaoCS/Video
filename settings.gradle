@@ -1,1 +1,1 @@
-include ':app', ':push', ':play'
+include ':app', ':push', ':play', ':vitamio'

@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.chinaso.video.vod.VodNameListActivity;
+
 import org.easydarwin.config.SettingActivity;
 import org.easydarwin.easyplayer.PlaylistActivity;
 import org.easydarwin.easypusher.StreameActivity;

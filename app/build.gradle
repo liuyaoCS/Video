@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.chinaso.video"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 2016042215
         versionName "1.0"
     }
@@ -20,10 +20,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.1.1'
     compile files('libs/retrofit-1.9.0.jar')
     compile project(':push')
     compile project(':play')
+    compile project(':vitamio')
 }
