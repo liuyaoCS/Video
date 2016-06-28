@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.chinaso.video.net.NetworkService;
+
 public class SettingActivity extends AppCompatActivity {
 
     @Override
@@ -74,6 +76,7 @@ public class SettingActivity extends AppCompatActivity {
                 editor.putString(Config.RECORD_NAME, nameValue);
                 editor.putString(Config.VOD_SERVER_IP, "http://"+ipValue+":10000/");
                 editor.commit();
+                NetworkService.reConfigInstance();
                 onBackPressed();
             }
         });

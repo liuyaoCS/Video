@@ -51,6 +51,8 @@ public class VodActivity extends AppCompatActivity {
         urlDT= (EditText) findViewById(R.id.url);
         urlDT.setText(url);
 
+        //urlDT.setText("http://192.168.74.145/test.avi");
+
 
         video=(VideoView)findViewById(R.id.video);
         progressBar= (ProgressBar) findViewById(R.id.progress_bar);
